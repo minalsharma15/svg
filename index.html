@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<button onclick="clearDrawing()">🗑 Clear</button>
+<br><br>
+
+<svg id="box" width="400" height="250"
+     xmlns="http://www.w3.org/2000/svg"
+     style="border:1px solid black">
+
+</svg>
+
+<script>
+    let draw = false;
+    let line;
+    const svg = document.getElementById("box");
+
+    svg.onmousedown = function (e) {
+        draw = true;
+
+        line = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "polyline"
+        );
+
+        line.setAttribute("points", e.offsetX + "," + e.offsetY);
+        line.setAttribute("fill", "none");
+        line.setAttribute("stroke", "black");
+        line.setAttribute("stroke-width", "2");
+
+        svg.appendChild(line);
+    };
+
+    svg.onmousemove = function (e) {
+        if (!draw) return;
+
+        let points = line.getAttribute("points");
+        line.setAttribute(
+            "points",
+            points + " " + e.offsetX + "," + e.offsetY
+        );
+    };
+
+    svg.onmouseup = function () {
+        draw = false;
+    };
+
+    function clearDrawing() {
+        svg.innerHTML = "";
+    }
+</script>
+
+</body>
+</html>
